@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(java -version)",
+      "Bash(curl -s -m 8 -o /dev/null -w \"%{http_code}\" https://dl.google.com)",
+      "Read(//c/Users/Ashkan/AppData/Local/Android/Sdk/**)",
+      "Bash(curl -s -m 20 \"https://dl.google.com/android/maven2/androidx/room/room-runtime/maven-metadata.xml\")",
+      "Bash(./gradlew :app:checkDebugAarMetadata --console=plain)",
+      "PowerShell(.\\\\gradlew.bat :app:compileDebugKotlin --console=plain -q)",
+      "PowerShell(.\\\\gradlew.bat :app:compileDebugKotlin --console=plain -q -Pkotlin.compiler.execution.strategy=in-process --no-daemon)",
+      "PowerShell(.\\\\gradlew.bat :app:compileDebugKotlin --console=plain \"-Pkotlin.compiler.execution.strategy=in-process\" --no-daemon)",
+      "Bash(./gradlew assembleDebug --console=plain)",
+      "Bash(dir \"C:\\\\Users\\\\Ashkan\\\\AndroidStudioProjects\\\\NoteKeeper\\\\app\\\\src\\\\main\\\\res\")",
+      "Bash(./gradlew assembleDebug)",
+      "Bash(./gradlew :app:compileDebugKotlin -q)",
+      "Bash(./gradlew :app:compileDebugKotlin)",
+      "Bash(mkdir -p app/src/main/res/font)",
+      "Bash(curl -sL \"https://github.com/rastikerdar/vazirmatn/raw/master/fonts/ttf/Vazirmatn-Regular.ttf\" -o app/src/main/res/font/vazirmatn_regular.ttf)",
+      "Bash(curl -sL \"https://github.com/rastikerdar/vazirmatn/raw/master/fonts/ttf/Vazirmatn-Medium.ttf\"  -o app/src/main/res/font/vazirmatn_medium.ttf)",
+      "Bash(curl -sL \"https://github.com/rastikerdar/vazirmatn/raw/master/fonts/ttf/Vazirmatn-Bold.ttf\"    -o app/src/main/res/font/vazirmatn_bold.ttf)",
+      "Bash(curl -sL \"https://github.com/google/fonts/raw/main/ofl/inter/Inter%5Bopsz,wght%5D.ttf\"         -o app/src/main/res/font/inter_variable.ttf)",
+      "Bash(./gradlew compileDebugKotlin -q)",
+      "Bash(./gradlew compileDebugKotlin)",
+      "PowerShell(gh auth *)",
+      "PowerShell(git config *)"
+    ]
+  }
+}

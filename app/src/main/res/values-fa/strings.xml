@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">نوت‌کیپ</string>
+
+    <!-- Home -->
+    <string name="fab_new_note">یادداشت جدید</string>
+    <string name="empty_home">یادداشت‌های شما اینجا نمایش داده می‌شوند</string>
+    <string name="selection_count">%1$d مورد انتخاب شد</string>
+
+    <!-- Top bar actions -->
+    <string name="action_search">جست‌وجو</string>
+    <string name="action_view_list">نمای فهرستی</string>
+    <string name="action_view_grid">نمای شبکه‌ای</string>
+    <string name="action_more">گزینه‌های بیشتر</string>
+    <string name="action_close">بستن</string>
+    <string name="action_back">بازگشت</string>
+    <string name="action_clear">پاک کردن</string>
+
+    <!-- Note actions -->
+    <string name="action_pin">سنجاق کردن</string>
+    <string name="action_archive">بایگانی</string>
+    <string name="action_change_color">تغییر رنگ</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_undo">بازگردانی</string>
+    <string name="action_reminder">یادآور</string>
+    <string name="action_labels">برچسب‌ها</string>
+    <string name="action_add_label">افزودن برچسب</string>
+    <string name="action_remove_label">حذف برچسب</string>
+    <string name="action_copy">کپی در کلیپ‌بورد</string>
+
+    <!-- Color picker -->
+    <string name="color_picker_title">رنگ یادداشت</string>
+
+    <!-- Editor -->
+    <string name="title_hint">عنوان</string>
+    <string name="content_hint">یادداشت</string>
+    <string name="note_saved">یادداشت ذخیره شد</string>
+    <string name="note_discarded_empty">یادداشت خالی نادیده گرفته شد</string>
+    <string name="note_deleted_toast">یادداشت حذف شد</string>
+    <string name="reminder_placeholder">یادآورها به‌زودی اضافه می‌شوند</string>
+    <string name="copied">در کلیپ‌بورد کپی شد</string>
+
+    <!-- Labels -->
+    <string name="labels_sheet_title">برچسب‌گذاری یادداشت</string>
+    <string name="label_hint">ایجاد برچسب جدید</string>
+    <string name="no_labels_yet">هنوز برچسبی نیست. برای ساختن، بالا تایپ کنید.</string>
+    <string name="filter_all">همه</string>
+    <string name="empty_label_filter">یادداشتی با برچسب «%1$s» نیست</string>
+
+    <!-- Snackbars -->
+    <string name="snackbar_note_deleted">یادداشت حذف شد</string>
+
+    <!-- Search -->
+    <string name="search_hint">یادداشت‌های خود را جست‌وجو کنید</string>
+    <string name="search_prompt">جست‌وجو در عنوان‌ها و متن‌ها</string>
+    <string name="search_no_results">یادداشتی یافت نشد</string>
+
+    <!-- Archive -->
+    <string name="archive_title">بایگانی</string>
+    <string name="empty_archive">یادداشت‌های بایگانی‌شده اینجا نمایش داده می‌شوند</string>
+
+    <!-- Trash -->
+    <string name="trash_title">زباله‌دان</string>
+    <string name="empty_trash">یادداشت‌های حذف‌شده اینجا نمایش داده می‌شوند</string>
+    <string name="trash_retention_notice">یادداشت‌های زباله‌دان پس از ۷ روز حذف می‌شوند</string>
+    <string name="trash_action_prompt">این یادداشت بازگردانده شود یا برای همیشه حذف شود؟</string>
+    <string name="trash_untitled">یادداشت بدون عنوان</string>
+    <string name="trash_empty_confirm">همهٔ یادداشت‌های زباله‌دان برای همیشه حذف شوند؟ این کار قابل بازگشت نیست.</string>
+    <string name="action_empty_trash">خالی کردن زباله‌دان</string>
+    <string name="action_restore">بازگردانی</string>
+    <string name="action_delete_forever">حذف برای همیشه</string>
+    <string name="action_cancel">انصراف</string>
+    <string name="action_save">ذخیره</string>
+
+    <!-- Checklist -->
+    <string name="action_checkboxes">کادرهای انتخاب</string>
+    <string name="action_hide_checkboxes">پنهان کردن کادرها</string>
+    <string name="checklist_add_item">مورد فهرست</string>
+    <string name="checklist_progress">%1$d از %2$d</string>
+    <string name="action_remove_item">حذف مورد</string>
+
+    <!-- Settings -->
+    <string name="action_settings">تنظیمات</string>
+    <string name="settings_title">تنظیمات</string>
+    <string name="settings_appearance">ظاهر</string>
+    <string name="settings_theme">پوسته</string>
+    <string name="settings_theme_subtitle">ظاهر نوت‌کیپ را انتخاب کنید</string>
+    <string name="settings_theme_system">پیش‌فرض سیستم</string>
+    <string name="settings_theme_light">روشن</string>
+    <string name="settings_theme_dark">تیره</string>
+    <string name="settings_dark_mode">حالت تیره</string>
+    <string name="settings_language">زبان</string>
+    <string name="settings_language_subtitle">زبان موردنظر خود را انتخاب کنید</string>
+    <string name="settings_language_system">پیش‌فرض سیستم</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_persian">فارسی</string>
+
+    <!-- Reminders -->
+    <string name="reminder_dialog_title">افزودن یادآور</string>
+    <string name="reminder_set">یادآور تنظیم شد</string>
+    <string name="reminder_cleared">یادآور حذف شد</string>
+    <string name="action_remove_reminder">حذف یادآور</string>
+    <string name="reminder_notification_fallback_title">یادآور یادداشت</string>
+    <string name="reminder_needs_notification_permission">برای دریافت یادآورها، اعلان‌ها را مجاز کنید</string>
+</resources>
