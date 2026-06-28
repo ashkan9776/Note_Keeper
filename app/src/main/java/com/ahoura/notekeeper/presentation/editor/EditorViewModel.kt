@@ -90,7 +90,8 @@ class EditorViewModel @Inject constructor(
             labels = note.labels,
             reminderAt = note.reminderAt,
             isChecklist = note.isChecklist,
-            checklistItems = note.checklistItems
+            checklistItems = note.checklistItems,
+            createdAt = note.createdAt
         )
     }
 
@@ -217,8 +218,8 @@ class EditorViewModel @Inject constructor(
         val note = state.toNote(createdAt)
         if (state.isNewNote) {
             val newId = createNote(note)
-            createdAt = createdAt ?: java.time.LocalDateTime.now()
-            _uiState.update { it.copy(noteId = newId, isNewNote = false) }
+            createdAt = createdAt ?: note.createdAt
+            _uiState.update { it.copy(noteId = newId, isNewNote = false, createdAt = createdAt) }
         } else {
             updateNote(note)
         }

@@ -27,6 +27,24 @@
     <string name="action_add_label">افزودن برچسب</string>
     <string name="action_remove_label">حذف برچسب</string>
     <string name="action_copy">کپی در کلیپ‌بورد</string>
+    <string name="action_share">هم‌رسانی</string>
+    <string name="action_note_info">اطلاعات یادداشت</string>
+
+    <!-- Share -->
+    <string name="share_chooser_title">هم‌رسانی یادداشت با</string>
+    <string name="share_empty">هنوز چیزی برای هم‌رسانی نیست</string>
+
+    <!-- Note info -->
+    <string name="note_info_title">اطلاعات یادداشت</string>
+    <string name="note_info_words">واژه‌ها</string>
+    <string name="note_info_characters">نویسه‌ها</string>
+    <string name="note_info_reading_time">زمان مطالعه</string>
+    <string name="note_info_created">ساخته‌شده</string>
+    <string name="note_info_not_saved">هنوز ذخیره نشده</string>
+    <plurals name="note_info_minutes">
+        <item quantity="one">%1$d دقیقه مطالعه</item>
+        <item quantity="other">%1$d دقیقه مطالعه</item>
+    </plurals>
 
     <!-- Color picker -->
     <string name="color_picker_title">رنگ یادداشت</string>

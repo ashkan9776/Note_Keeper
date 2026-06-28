@@ -26,6 +26,24 @@
     <string name="action_add_label">Add label</string>
     <string name="action_remove_label">Remove label</string>
     <string name="action_copy">Copy to clipboard</string>
+    <string name="action_share">Share</string>
+    <string name="action_note_info">Note info</string>
+
+    <!-- Share -->
+    <string name="share_chooser_title">Share note via</string>
+    <string name="share_empty">Nothing to share yet</string>
+
+    <!-- Note info -->
+    <string name="note_info_title">Note info</string>
+    <string name="note_info_words">Words</string>
+    <string name="note_info_characters">Characters</string>
+    <string name="note_info_reading_time">Reading time</string>
+    <string name="note_info_created">Created</string>
+    <string name="note_info_not_saved">Not saved yet</string>
+    <plurals name="note_info_minutes">
+        <item quantity="one">%1$d min read</item>
+        <item quantity="other">%1$d min read</item>
+    </plurals>
 
     <!-- Color picker -->
     <string name="color_picker_title">Note color</string>

@@ -59,6 +59,7 @@ import com.ahoura.notekeeper.R
 import com.ahoura.notekeeper.ui.components.ChecklistEditor
 import com.ahoura.notekeeper.ui.components.LabelEditorSheet
 import com.ahoura.notekeeper.ui.components.NoteColorPicker
+import com.ahoura.notekeeper.ui.components.NoteInfoSheet
 import com.ahoura.notekeeper.ui.components.ReminderPickerDialog
 import com.ahoura.notekeeper.ui.theme.contentColorFor
 import com.ahoura.notekeeper.ui.theme.toComposeColor
@@ -77,6 +78,7 @@ fun EditorScreen(
     var showColorPicker by remember { mutableStateOf(false) }
     var showLabelSheet by remember { mutableStateOf(false) }
     var showReminderPicker by remember { mutableStateOf(false) }
+    var showInfoSheet by remember { mutableStateOf(false) }
     var menuExpanded by remember { mutableStateOf(false) }
 
     val background by animateColorAsState(
@@ -199,6 +201,25 @@ fun EditorScreen(
                                     context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                 manager.setPrimaryClip(ClipData.newPlainText("note", text))
                                 Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.action_share)) },
+                            onClick = {
+                                menuExpanded = false
+                                val shareText = state.shareText
+                                if (shareText.isBlank()) {
+                                    Toast.makeText(context, R.string.share_empty, Toast.LENGTH_SHORT).show()
+                                } else {
+                                    shareNote(context, shareText)
+                                }
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.action_note_info)) },
+                            onClick = {
+                                menuExpanded = false
+                                showInfoSheet = true
                             }
                         )
                     }
@@ -331,6 +352,23 @@ fun EditorScreen(
             onDismiss = { showReminderPicker = false }
         )
     }
+
+    if (showInfoSheet) {
+        NoteInfoSheet(state = state, onDismiss = { showInfoSheet = false })
+    }
+}
+
+/** Opens the system share sheet with the note rendered as plain text. */
+private fun shareNote(context: Context, text: String) {
+    val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(android.content.Intent.EXTRA_TEXT, text)
+    }
+    val chooser = android.content.Intent.createChooser(
+        intent,
+        context.getString(R.string.share_chooser_title)
+    )
+    context.startActivity(chooser)
 }
 
 private val EDITOR_REMINDER_FORMAT: java.time.format.DateTimeFormatter =

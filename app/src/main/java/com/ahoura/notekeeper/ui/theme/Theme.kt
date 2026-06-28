@@ -13,7 +13,6 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 
 private val LightColors = lightColorScheme(
@@ -72,14 +71,11 @@ fun NoteKeeperTheme(
 
     val colorScheme = if (animated) target.animated() else target
 
-    // Persian renders in Vazirmatn; every other locale uses Inter. Driven by the configuration
-    // locale so it follows AppCompat's applied language without extra plumbing.
-    val isPersian = LocalConfiguration.current.locales[0].language == "fa"
-    val typography = if (isPersian) VazirTypography else InterTypography
-
+    // Vazirmatn is the single UI typeface for every locale — it carries both Persian and Latin
+    // glyphs, so English and Persian share one consistent type scale.
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = typography,
+        typography = VazirTypography,
         shapes = AppShapes,
         content = content
     )
