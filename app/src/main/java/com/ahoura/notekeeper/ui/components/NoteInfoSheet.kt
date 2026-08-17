@@ -29,12 +29,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ahoura.notekeeper.R
+import com.ahoura.notekeeper.data.preferences.LocaleManager
 import com.ahoura.notekeeper.presentation.editor.EditorUiState
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-
-private val INFO_DATE_FORMAT: DateTimeFormatter =
-    DateTimeFormatter.ofPattern("MMM d, yyyy · h:mm a")
+import androidx.compose.runtime.remember
 
 /**
  * A bottom sheet summarising live statistics for the note open in the editor: word count,
@@ -124,5 +122,8 @@ private fun InfoRow(icon: ImageVector, label: String, value: String) {
 }
 
 @Composable
-private fun LocalDateTime?.formatOrNotSaved(): String =
-    this?.format(INFO_DATE_FORMAT) ?: stringResource(R.string.note_info_not_saved)
+private fun LocalDateTime?.formatOrNotSaved(): String {
+    if (this == null) return stringResource(R.string.note_info_not_saved)
+    val language = remember { LocaleManager.current() }
+    return this.formatLocalized(language)
+}

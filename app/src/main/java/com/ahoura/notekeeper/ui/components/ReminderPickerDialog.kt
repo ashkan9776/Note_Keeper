@@ -22,9 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ahoura.notekeeper.R
+import com.ahoura.notekeeper.data.preferences.LocaleManager
+import com.ahoura.notekeeper.domain.model.AppLanguage
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 
 private enum class Step { DATE, TIME }
@@ -42,10 +45,16 @@ fun ReminderPickerDialog(
 ) {
     val seed = initial ?: LocalDateTime.now().plusHours(1).withMinute(0)
     var step by remember { mutableStateOf(Step.DATE) }
+    val language = remember { LocaleManager.current() }
+
+    var selectedDateMillis by remember {
+        mutableStateOf(
+            seed.toLocalDate().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+        )
+    }
 
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = seed.toLocalDate()
-            .atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+        initialSelectedDateMillis = selectedDateMillis
     )
     val timePickerState = rememberTimePickerState(
         initialHour = seed.hour,
@@ -53,12 +62,27 @@ fun ReminderPickerDialog(
         is24Hour = false
     )
 
+    if (language == AppLanguage.PERSIAN && step == Step.DATE) {
+        PersianDatePickerDialog(
+            initial = seed,
+            onConfirm = { 
+                selectedDateMillis = it.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                step = Step.TIME
+            },
+            onDismiss = onDismiss
+        )
+        return
+    }
+
     when (step) {
         Step.DATE -> DatePickerDialog(
             onDismissRequest = onDismiss,
             confirmButton = {
                 TextButton(
-                    onClick = { step = Step.TIME },
+                    onClick = { 
+                        selectedDateMillis = datePickerState.selectedDateMillis ?: selectedDateMillis
+                        step = Step.TIME 
+                    },
                     enabled = datePickerState.selectedDateMillis != null
                 ) { Text(stringResource(R.string.action_save)) }
             },
@@ -82,8 +106,7 @@ fun ReminderPickerDialog(
             },
             confirmButton = {
                 TextButton(onClick = {
-                    val dateMillis = datePickerState.selectedDateMillis ?: return@TextButton
-                    val date = Instant.ofEpochMilli(dateMillis).atZone(ZoneOffset.UTC).toLocalDate()
+                    val date = Instant.ofEpochMilli(selectedDateMillis).atZone(ZoneOffset.UTC).toLocalDate()
                     val time = LocalTime.of(timePickerState.hour, timePickerState.minute)
                     onConfirm(LocalDateTime.of(date, time))
                 }) { Text(stringResource(R.string.action_save)) }

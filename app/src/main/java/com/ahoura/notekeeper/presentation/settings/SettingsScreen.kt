@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Translate
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -69,6 +70,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
+    val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsStateWithLifecycle()
     val context = LocalContext.current
     // Language is owned by AppCompat; read the applied value once per composition pass.
     val currentLanguage = remember { LocaleManager.current() }
@@ -111,6 +113,12 @@ fun SettingsScreen(
                     onSelect = { language ->
                         if (language != currentLanguage) LocaleManager.apply(language)
                     }
+                )
+            }
+            EntranceItem(index = 2) {
+                SecuritySection(
+                    enabled = isBiometricEnabled,
+                    onToggle = viewModel::setBiometricEnabled
                 )
             }
         }
@@ -267,6 +275,50 @@ private fun LanguageOptionRow(
                     Icons.Filled.Check,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SecuritySection(
+    enabled: Boolean,
+    onToggle: (Boolean) -> Unit
+) {
+    SettingsCard(
+        icon = Icons.Filled.Lock,
+        title = stringResource(R.string.settings_security),
+        subtitle = stringResource(R.string.settings_app_lock_subtitle)
+    ) {
+        Surface(
+            color = MaterialTheme.colorScheme.surfaceVariant,
+            shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = { onToggle(!enabled) })
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Lock,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = stringResource(R.string.settings_app_lock),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 12.dp)
+                )
+                Switch(
+                    checked = enabled,
+                    onCheckedChange = onToggle
                 )
             }
         }

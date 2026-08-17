@@ -30,6 +30,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -47,6 +48,7 @@ import com.ahoura.notekeeper.domain.model.NoteColor
 import com.ahoura.notekeeper.ui.theme.NoteKeeperTheme
 import com.ahoura.notekeeper.ui.theme.contentColorFor
 import com.ahoura.notekeeper.ui.theme.toComposeColor
+import com.ahoura.notekeeper.data.preferences.LocaleManager
 
 private const val MAX_PREVIEW_LINES = 8
 
@@ -133,7 +135,7 @@ fun NoteCard(
                     ChecklistPreview(note, contentColor)
                 } else if (note.content.isNotBlank()) {
                     Text(
-                        text = note.content,
+                        text = note.content.parseMarkdown(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = contentColor.copy(alpha = 0.85f),
                         maxLines = MAX_PREVIEW_LINES,
@@ -238,8 +240,9 @@ private fun ReminderChip(reminderAt: java.time.LocalDateTime, contentColor: Colo
                 contentDescription = null,
                 modifier = Modifier.size(14.dp)
             )
+            val language = remember { LocaleManager.current() }
             Text(
-                text = reminderAt.format(reminderFormatter),
+                text = reminderAt.formatLocalized(language),
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 6.dp)
             )

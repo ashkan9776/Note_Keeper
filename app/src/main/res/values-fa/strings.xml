@@ -113,6 +113,12 @@
     <string name="settings_language_english">English</string>
     <string name="settings_language_persian">فارسی</string>
 
+    <!-- Security -->
+    <string name="settings_security">امنیت</string>
+    <string name="settings_app_lock">قفل برنامه</string>
+    <string name="settings_app_lock_subtitle">برای باز کردن برنامه نیاز به تایید هویت بیومتریک باشد</string>
+    <string name="biometric_prompt_subtitle">برای ادامه هویت خود را تایید کنید</string>
+
     <!-- Reminders -->
     <string name="reminder_dialog_title">افزودن یادآور</string>
     <string name="reminder_set">یادآور تنظیم شد</string>

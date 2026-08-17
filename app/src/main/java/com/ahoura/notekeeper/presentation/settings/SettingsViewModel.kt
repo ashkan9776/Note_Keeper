@@ -27,7 +27,17 @@ class SettingsViewModel @Inject constructor(
         initialValue = ThemeMode.SYSTEM
     )
 
+    val isBiometricEnabled: StateFlow<Boolean> = settings.isBiometricEnabled.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false
+    )
+
     fun setThemeMode(mode: ThemeMode) {
         viewModelScope.launch { settings.setThemeMode(mode) }
+    }
+
+    fun setBiometricEnabled(enabled: Boolean) {
+        viewModelScope.launch { settings.setBiometricEnabled(enabled) }
     }
 }

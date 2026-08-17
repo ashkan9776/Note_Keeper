@@ -25,6 +25,11 @@ import com.ahoura.notekeeper.navigation.AppNavGraph
 import com.ahoura.notekeeper.ui.theme.NoteKeeperTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.ahoura.notekeeper.data.security.BiometricAuthManager
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,8 +37,12 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var settings: SettingsDataStore
 
-    // Note id to open when launched from a reminder notification; backed by state so onNewIntent
-    // (app already running) also routes to the editor.
+    @Inject
+    lateinit var biometricAuthManager: BiometricAuthManager
+
+    private var isUnlocked by mutableStateOf(false)
+
+    // Note id to open when launched from a reminder notification
     private var deepLinkNoteId by mutableStateOf<Long?>(null)
 
     private val notificationPermissionLauncher =
@@ -41,15 +50,53 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Blocking check for initial security state to avoid UI flicker if possible,
+        // or just handle it in Compose.
+        val biometricEnabled = runBlocking { settings.isBiometricEnabled.first() }
+        isUnlocked = !biometricEnabled
+
         deepLinkNoteId = intent.readReminderNoteId()
         requestNotificationPermissionIfNeeded()
-        // Edge-to-edge; status/navigation bar icon contrast adapts to the system theme.
         enableEdgeToEdge()
+        
         setContent {
-            NoteKeeperRoot(
-                settings = settings,
-                deepLinkNoteId = deepLinkNoteId
+            val biometricEnabledState by settings.isBiometricEnabled.collectAsState(initial = biometricEnabled)
+            
+            LaunchedEffect(biometricEnabledState) {
+                if (biometricEnabledState && !isUnlocked) {
+                    authenticate()
+                }
+            }
+
+            if (isUnlocked) {
+                NoteKeeperRoot(
+                    settings = settings,
+                    deepLinkNoteId = deepLinkNoteId
+                )
+            } else {
+                // Showing a blank surface or splash while locked
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {}
+            }
+        }
+    }
+
+    private fun authenticate() {
+        if (biometricAuthManager.isBiometricAvailable(this)) {
+            biometricAuthManager.authenticate(
+                activity = this,
+                title = getString(R.string.app_name),
+                subtitle = getString(R.string.biometric_prompt_subtitle),
+                onSuccess = { isUnlocked = true },
+                onError = { /* Handle error or stay locked */ }
             )
+        } else {
+            // Biometrics not available but enabled? Should not happen if settings check is correct,
+            // but fallback to unlocked to avoid lock-out.
+            isUnlocked = true
         }
     }
 

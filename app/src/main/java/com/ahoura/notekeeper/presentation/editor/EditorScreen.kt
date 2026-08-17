@@ -64,6 +64,10 @@ import com.ahoura.notekeeper.ui.components.ReminderPickerDialog
 import com.ahoura.notekeeper.ui.theme.contentColorFor
 import com.ahoura.notekeeper.ui.theme.toComposeColor
 
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import com.ahoura.notekeeper.ui.components.parseMarkdown
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun EditorScreen(
@@ -75,6 +79,7 @@ fun EditorScreen(
     val context = LocalContext.current
     val darkTheme = isSystemInDarkTheme()
 
+    var isPreviewMode by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
     var showLabelSheet by remember { mutableStateOf(false) }
     var showReminderPicker by remember { mutableStateOf(false) }
@@ -128,6 +133,14 @@ fun EditorScreen(
                     }
                 },
                 actions = {
+                    if (!state.isChecklist) {
+                        IconButton(onClick = { isPreviewMode = !isPreviewMode }) {
+                            Icon(
+                                imageVector = if (isPreviewMode) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                                contentDescription = "Toggle Preview"
+                            )
+                        }
+                    }
                     IconButton(onClick = viewModel::togglePin) {
                         Icon(
                             imageVector = if (state.isPinned) Icons.Filled.PushPin else Icons.Outlined.PushPin,
@@ -260,18 +273,34 @@ fun EditorScreen(
                     )
                 }
             } else {
-                TransparentField(
-                    value = state.content,
-                    onValueChange = viewModel::onContentChange,
-                    hint = stringResource(R.string.content_hint),
-                    textColor = onBackground,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .verticalScroll(rememberScrollState())
-                )
+                if (isPreviewMode) {
+                    Text(
+                        text = state.content.parseMarkdown(),
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = onBackground,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .verticalScroll(rememberScrollState())
+                            .padding(vertical = 16.dp)
+                    )
+                } else {
+                    TransparentField(
+                        value = state.content,
+                        onValueChange = viewModel::onContentChange,
+                        hint = stringResource(R.string.content_hint),
+                        textColor = onBackground,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .verticalScroll(rememberScrollState())
+                    )
+                }
             }
 
             state.reminderAt?.let { reminder ->
